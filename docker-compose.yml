@@ -1,0 +1,17 @@
+version: '2.4'
+
+services:
+  kafka:
+    image: ${DOCKER_REGISTRY}cp-kafka{{digest}}
+    restart: always
+    environment:
+      - KAFKA_LISTENTERS=PLAINTEXT://0.0.0.0:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://xxx01:9092
+      - KAFKA_ZOOKEEPER_CONNECT=xxx01:2181
+      - KAFKA_JMX_PORT=9099
+      - KAFKA_JMX_OPTS:"-Djava.rmi.server.hostname=<<host ip address>> -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=9099"
+    volumes:
+      - /data/volumes/kafka/data:/var/lib/kafka/data
+    ports:
+      - 9092:9092
+      - 9099:9099
